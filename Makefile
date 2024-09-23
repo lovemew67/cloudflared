@@ -141,6 +141,15 @@ endif
 container:
 	docker build --build-arg=TARGET_ARCH=$(TARGET_ARCH) --build-arg=TARGET_OS=$(TARGET_OS) -t cloudflare/cloudflared-$(TARGET_OS)-$(TARGET_ARCH):"$(VERSION)" .
 
+# docker container run -d --name cloudflared-umr lovemew67/cloudflared:umr sleep infinity
+# docker cp cloudflared-umr:/usr/local/bin/cloudflared .
+# scp -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null -O cloudflared ui@192.168.105.1:/tmp/cloudflared
+# ssh -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null ui@192.168.105.1
+# ./cloudflared tunnel run --token eyJ...
+.PHONY: container-umr
+container-umr:
+	docker build -f Dockerfile.umr -t lovemew67/cloudflared:umr .
+
 .PHONY: generate-docker-version
 generate-docker-version:
 	echo latest $(VERSION) > versions
